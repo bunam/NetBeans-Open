@@ -22,9 +22,11 @@ return -- not needed, but shows that the script stops here when "run"
 
 on open of finderObjects -- "open" handler triggered by drag'n'drop launches
 	
-	set netBeansAppName to do shell script "ls -1 /Applications/NetBeans/ | grep -e '^NetBeans' | sort | tail -n 1"
+	set netBeansAppNameLastRev to do shell script "ls -1 /Applications/NetBeans/ | grep -e '^NetBeans' | sed 's/.app//g' | sort | tail -n 1"
 	
-	set netBeansAppFullPath to "/Applications/NetBeans/" & netBeansAppName & "/Contents/MacOS/netbeans"
+	set netBeansAppNameLastRev to netBeansAppNameLastRev & ".app"
+	
+	set netBeansAppFullPath to "/Applications/NetBeans/" & netBeansAppNameLastRev & "/Contents/MacOS/netbeans"
 	
 	set netBeansAppFullPathQuoted to quoted form of netBeansAppFullPath
 	
@@ -36,7 +38,7 @@ on open of finderObjects -- "open" handler triggered by drag'n'drop launches
 		
 	end repeat
 	
-	tell application netBeansAppName
+	tell application netBeansAppNameLastRev
 		activate
 	end tell
 	
